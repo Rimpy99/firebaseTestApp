@@ -1,11 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FormComponent } from './components/FormComponent';
+import { Header } from './components/Header';
+import { useState } from 'react';
 
 function App() {
+
+  const [ isLoginModalActive, setIsLoginModalActive ] = useState<boolean>(false)
+
   return (
     <div className="App">
-      
+      <Header setIsLoginModalActive={setIsLoginModalActive}/>
+      { isLoginModalActive && <FormComponent /> }
     </div>
   );
 }
