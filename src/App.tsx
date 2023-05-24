@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <Header setIsLoginModalActive={setIsLoginModalActive}/>
-      { isLoginModalActive && <FormComponent /> }
+      { isLoginModalActive && <FormComponent isLoginModalActive={isLoginModalActive} setIsLoginModalActive={setIsLoginModalActive}/> }
     </div>
   );
 }

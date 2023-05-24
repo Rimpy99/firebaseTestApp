@@ -1,16 +1,25 @@
-import { Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { AiOutlineUser } from "react-icons/ai";
+import { useIsUserLogged } from '../store/store';
 
 type Props = {
     setIsLoginModalActive: Dispatch<SetStateAction<boolean>>
 }
 
 export const Header = ({ setIsLoginModalActive }: Props) => {
+    const userStatus = useIsUserLogged((state) => state.status)
+    // const updateUserStatus = useIsUserLogged((state) => state.updateStatus)
+    
+    const profileOnClick = () => {
+        if(!userStatus){
+            setIsLoginModalActive(true)
+        }
+    }
 
     return(
         <Container>
-            <SignUpButton onClick={() => setIsLoginModalActive(true)}>
+            <SignUpButton onClick={() => profileOnClick()}>
                 <AiOutlineUser size="20" color="white"/>
             </SignUpButton>
         </Container>
@@ -24,6 +33,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    position: relative;
 `
 
 const SignUpButton = styled.button`
