@@ -1,16 +1,16 @@
-import React from 'react';
 import { FormComponent } from './components/FormComponent';
 import { Header } from './components/Header';
 import { useState } from 'react';
 
 function App() {
-
-  const [ isLoginModalActive, setIsLoginModalActive ] = useState<boolean>(false)
+  const [ isSignUpModalActive, setIsSignUpModalActive ] = useState<boolean>(false)
 
   return (
     <div className="App">
-      <Header setIsLoginModalActive={setIsLoginModalActive}/>
-      { isLoginModalActive && <FormComponent isLoginModalActive={isLoginModalActive} setIsLoginModalActive={setIsLoginModalActive}/> }
+      <Header 
+        setIsSignUpModalActive={setIsSignUpModalActive} 
+      />
+      { isSignUpModalActive && <FormComponent setIsSignUpModalActive={setIsSignUpModalActive}/> }
     </div>
   );
 }
