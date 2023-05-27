@@ -4,6 +4,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { useIsUserLogged } from '../store/store';
 import { SignInForm } from './SignInForm';
 import { auth } from '../config/firebase';
+import { signOut } from "firebase/auth";
 
 type Props = {
     setIsSignUpModalActive: Dispatch<SetStateAction<boolean>>
@@ -12,11 +13,17 @@ type Props = {
 export const Header = ({ setIsSignUpModalActive }: Props) => {
     const [ isDropdownActive, setIsDropdownActive ] =  useState<boolean>(false)
     const userStatus = useIsUserLogged((state) => state.status)
+    const updateUserStatus = useIsUserLogged((state) => state.updateStatus)
 
     const profileIconClicked = () => {
-        if(!userStatus){
-            setIsDropdownActive(state => !state)
-        }
+        // if(!userStatus){
+        setIsDropdownActive(state => !state)
+        // }
+    }
+
+    const signOutClicked = async() => {
+        await signOut(auth)
+        updateUserStatus()
     }
 
     return(
@@ -27,9 +34,14 @@ export const Header = ({ setIsSignUpModalActive }: Props) => {
             <ProfileIcon onClick={() => profileIconClicked()}>
                 <AiOutlineUser size="20" color="white"/>
             </ProfileIcon>
-            {isDropdownActive &&
+            {isDropdownActive && !userStatus && 
                 <Dropdown onClick={e => e.stopPropagation()}>
                     <SignInForm setIsSignUpModalActive={setIsSignUpModalActive}/>
+                </Dropdown>
+            }
+            {isDropdownActive && userStatus && 
+                <Dropdown onClick={e => e.stopPropagation()}>
+                    <SignOutBtn onClick={() => signOutClicked()}>Sign out</SignOutBtn>
                 </Dropdown>
             }
         </Container>
@@ -67,4 +79,8 @@ const Dropdown = styled.div`
     top: 125%;
     border: 1px solid #dedede;
     border-radius: 5px;
+`
+
+const SignOutBtn = styled.button`
+
 `
